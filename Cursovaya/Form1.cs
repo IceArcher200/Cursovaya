@@ -24,6 +24,7 @@ namespace Cursovaya
         private Label subjectLabel = new Label();
         private DateTimePicker dateTimePicker = new DateTimePicker();
         private CheckedListBox groupBox = new CheckedListBox();
+        private ListBox personBox = new ListBox();
 
         public Form1()
         {
@@ -49,10 +50,11 @@ namespace Cursovaya
                 {
                     groups.Add(item);
                 }
-                Lecturer Eugene = new Lecturer(fioBox.Text, groups);
+                //Lecturer Eugene = new Lecturer(fioBox.Text, groups);
+                Lecturer lecturer = (Lecturer)personBox.SelectedItem;
                 for(int i = 0; i < events.Count; i++)
                 {
-                    if (events[i].FullName == Eugene.FullName)
+                    if (events[i].FullName == lecturer.FullName)
                         this.eventsDataGridView.Rows.Add(events[i].Subject, events[i].FullName, events[i].Date, events[i].Groups);
                 }
                 
@@ -72,18 +74,10 @@ namespace Cursovaya
 
         private void addEventButton_Click(object sender, EventArgs e)
         {
-            if (fioBox.Text == "" || subjectBox.Text == "" || groupBox.CheckedItems.Count == 0); // Сделать предупреждение
-            else
-            {
-                List<string> groups = new List<string>();
-                foreach(string item in groupBox.CheckedItems)
-                {
-                    groups.Add(item);
-                }
-                
-                Lecturer Eugene = new Lecturer(fioBox.Text, groups);
-                Eugene.SetExam(dateTimePicker.Text, subjectBox.Text, groups);
-            }
+            EventCreationForm eventCreation = new EventCreationForm((Lecturer)personBox.SelectedItem);
+            eventCreation.ShowDialog();
+            
+            
         }
 
         private void SetupLayout()
@@ -115,8 +109,22 @@ namespace Cursovaya
 
             groupBox.Location = new Point(410, 300);
             groupBox.CheckOnClick = true;
-            
             groupBox.Items.AddRange(new string[] {"ABT-111","ABT-222","ABT-333","ABT-444","ABT-555", "ABT-666", "ABT-777" });
+
+            List<string> groups1 = new List<string> { "ABT-111", "ABT-222", "ABT-333", "ABT-444", "ABT-555", "ABT-666", "ABT-777" };
+            List<string> groups2 = new List<string> { "ABT-110", "ABT-220", "ABT-330", "ABT-440", "ABT-550", "ABT-660", "ABT-770" };
+            List<string> subjects1 = new List<string> { "Линейная алгебра", "Математический анализ", "Высшая математика" };
+            List<string> subjects2 = new List<string> { "Что-то там", "Ерунда", "Компьютерная графика" };
+
+            Lecturer Eugene = new Lecturer("Eugene", groups1,subjects1);
+            Lecturer Mark = new Lecturer("Mark", groups2, subjects2);
+            personBox.Location = new Point(410, 0);
+            List<Lecturer> lecturers = new List<Lecturer> { Eugene, Mark };
+            personBox.DisplayMember = "FullName";
+            personBox.DataSource = lecturers;
+            //personBox.Items.Add(Eugene);
+            //personBox.Items.Add(Mark);
+
 
             buttonPanel.Controls.Add(addNewRowButton);
             buttonPanel.Controls.Add(deleteRowButton);
@@ -133,6 +141,7 @@ namespace Cursovaya
             this.Controls.Add(this.subjectLabel);
             this.Controls.Add(this.dateTimePicker);
             this.Controls.Add(this.groupBox);
+            this.Controls.Add(this.personBox);
         }
 
         private void SetupDataGridView()

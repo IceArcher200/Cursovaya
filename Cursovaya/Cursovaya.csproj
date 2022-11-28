@@ -46,14 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Autorize.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Autorize.Designer.cs">
-      <DependentUpon>Autorize.cs</DependentUpon>
-    </Compile>
     <Compile Include="DataBase.cs" />
     <Compile Include="Event.cs" />
+    <Compile Include="EventCreationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EventCreationForm.Designer.cs">
+      <DependentUpon>EventCreationForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -63,9 +63,6 @@
     <Compile Include="Lecturer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Autorize.resx">
-      <DependentUpon>Autorize.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
