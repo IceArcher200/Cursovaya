@@ -34,7 +34,7 @@ namespace Cursovaya
                 string allgroups = "";
                 foreach (string group in _groups)
                 {
-                    allgroups += group + ", ";
+                    allgroups += group + ",";
                 }
                 return allgroups; }
             private set { }

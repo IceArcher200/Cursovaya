@@ -37,7 +37,49 @@ namespace Cursovaya
 
         public void SetExam(string date, string subject, List<string> groups)
         {
-            dataStore.AddEvent(new Event(date, groups, subject, _FIO));
+            string answer = CheckNearestExam(date, groups);
+            if ( answer == "")
+                dataStore.AddEvent(new Event(date, groups, subject, _FIO));
+            else throw new Exception($"У группы {answer} на ближайшее время уже назначен экзамен");
+        }
+
+        public void RemoveExam(string date, string subject, string groups)
+        {
+            List<Event> events = dataStore.Get();
+            foreach (Event ev in events)
+            {
+                if (ev.Date == date && ev.FullName == _FIO && ev.Groups == groups)
+                {
+                    events.Remove(ev);
+                    break;
+                }
+            }
+        }
+
+        private string CheckNearestExam(string date, List<string> groups)
+        {
+            string[] date1 = date.Split(' ')[0].Split('.');
+            DateTime d1 = new DateTime(int.Parse(date1[2]), int.Parse(date1[1]), int.Parse(date1[0]));
+            List<Event> events = dataStore.Get();
+            foreach (Event e in events)
+            {
+                foreach (string group in groups)
+                {
+                    foreach (string groupE in e.Groups.Split(','))
+                    {
+                        if (group == groupE)
+                        {
+                            string[] date2 = e.Date.Split(' ')[0].Split('.');
+                            DateTime d2 = new DateTime(int.Parse(date2[2]), int.Parse(date2[1]), int.Parse(date2[0]));
+                            if (d1 < d2) (d1, d2) = (d2, d1);
+                            if (d2.AddDays(2) >= d1) return group;
+                            
+                        }
+                    }
+                }
+            }
+            return "";
+            
         }
 
     }

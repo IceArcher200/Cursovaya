@@ -52,7 +52,7 @@ namespace Cursovaya
                 }
                 //Lecturer Eugene = new Lecturer(fioBox.Text, groups);
                 Lecturer lecturer = (Lecturer)personBox.SelectedItem;
-                for(int i = 0; i < events.Count; i++)
+                for (int i = 0; i < events.Count; i++)
                 {
                     if (events[i].FullName == lecturer.FullName)
                         this.eventsDataGridView.Rows.Add(events[i].Subject, events[i].FullName, events[i].Date, events[i].Groups);
@@ -67,6 +67,13 @@ namespace Cursovaya
                 this.eventsDataGridView.SelectedRows[0].Index !=
                 this.eventsDataGridView.Rows.Count - 1)
             {
+                Lecturer lecturer = (Lecturer)personBox.SelectedItem;
+
+                string date = this.eventsDataGridView.CurrentRow.Cells[2].Value.ToString();
+                string subject = this.eventsDataGridView.CurrentRow.Cells[1].Value.ToString();
+                string groups = this.eventsDataGridView.CurrentRow.Cells[3].Value.ToString();
+
+                lecturer.RemoveExam(date, subject, groups);
                 this.eventsDataGridView.Rows.RemoveAt(
                     this.eventsDataGridView.SelectedRows[0].Index);
             }

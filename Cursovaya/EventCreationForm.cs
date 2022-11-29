@@ -51,6 +51,8 @@ namespace Cursovaya
             addEventButton.Click += new EventHandler(addEventButton_Click);
 
             dateTimePicker.Location = new Point(50, 50);
+            dateTimePicker.Format = DateTimePickerFormat.Custom;
+            dateTimePicker.CustomFormat = "dd.MM.yyyy HH:mm";
 
             this.Controls.Add(this.groupBox);
             this.Controls.Add(this.addEventButton);
@@ -58,10 +60,10 @@ namespace Cursovaya
             this.Controls.Add(this.subjectBox);
             this.Controls.Add(this.dateTimePicker);
         }
-
+        
         private void addEventButton_Click(object sender, EventArgs e)
         {
-            if (/*fioBox.Text == "" || */subjectBox.Text == "" || groupBox.CheckedItems.Count == 0) ; // Сделать предупреждение
+            if (groupBox.CheckedItems.Count == 0) ; // Сделать предупреждение
             else
             {
                 List<string> groups = new List<string>();
@@ -69,8 +71,12 @@ namespace Cursovaya
                 {
                     groups.Add(item);
                 }
-
-                lecturer.SetExam(dateTimePicker.Text, subjectBox.Text, groups);
+                try
+                { lecturer.SetExam(dateTimePicker.Text, subjectBox.Text, groups); }
+                catch(Exception ee)
+                {
+                    MessageBox.Show(ee.Message);
+                }
                
             }
         }
