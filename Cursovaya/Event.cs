@@ -9,12 +9,12 @@ namespace Cursovaya
 
     public class Event
     {
-        string _subject, _FIO, _date;
+        string _subject, _FIO, _date, _room;
         List<string> _groups;
 
         public string Subject
-        {   
-            get {return _subject; }
+        {
+            get { return _subject; }
             set { _subject = value; }
         }
 
@@ -30,13 +30,15 @@ namespace Cursovaya
         }
         public string Groups
         {
-            get {
+            get
+            {
                 string allgroups = "";
                 foreach (string group in _groups)
                 {
-                    allgroups += group + ",";
+                    allgroups += group + " ";
                 }
-                return allgroups; }
+                return allgroups;
+            }
             private set { }
         }
         public Event(string date, List<string> groups, string subject, string FIO)
