@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cursovaya
 {
-
+    [Serializable]
     public class Event
     {
-        string _subject, _FIO, _date, _room;
-        List<string> _groups;
+        private string _subject, _FIO, _date, _room;
+        private List<string> _groups;
 
         public string Subject
         {
@@ -21,32 +21,32 @@ namespace Cursovaya
         public string FullName
         {
             get { return _FIO; }
-            private set { }
+            set { _FIO = value; }
         }
         public string Date
         {
             get { return _date; }
-            private set { }
+            set { _date = value; }
         }
-        public string Groups
+        
+        public List<string> Groups
         {
-            get
-            {
-                string allgroups = "";
-                foreach (string group in _groups)
-                {
-                    allgroups += group + " ";
-                }
-                return allgroups;
-            }
-            private set { }
+            get { return _groups; }
+            set { _groups = value; }
         }
-        public Event(string date, List<string> groups, string subject, string FIO)
+
+        public string Room
+        {
+            get { return _room; }
+            set { _room = value; }
+        }
+        public Event(string date, List<string> groups, string subject, string FIO, string room)
         {
             _date = date;
             _groups = groups;
             _subject = subject;
             _FIO = FIO;
+            _room = room;
         }
     }
 }

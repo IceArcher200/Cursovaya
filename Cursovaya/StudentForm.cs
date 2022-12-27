@@ -10,29 +10,26 @@ using System.Windows.Forms;
 
 namespace Cursovaya
 {
-    public partial class Form1 : Form
+    public partial class StudentForm : Form
     {
         DataBase dataStore = DataBase.GetInstance();
         private Panel buttonPanel = new Panel();
         private DataGridView eventsDataGridView = new DataGridView();
         private Button showExams = new Button();
-        private Button deleteRowButton = new Button();
-        private Button addEventButton = new Button();
         private ListBox personBox = new ListBox();
-
-        public Form1()
+        public StudentForm()
         {
             InitializeComponent();
             this.Text = "Расписание сессии";
-            this.Load += new EventHandler(Form1_Load);
+            this.Load += new EventHandler(StudentForm_Load);
+            
         }
-        private void Form1_Load(System.Object sender, System.EventArgs e)
+        private void StudentForm_Load(System.Object sender, System.EventArgs e)
         {
             SetupLayout();
             SetupDataGridView();
             PopulateDataGridView();
         }
-
 
         private void showExams_Click(object sender, EventArgs e)
         {
@@ -40,39 +37,14 @@ namespace Cursovaya
             List<Event> events = dataStore.Get();
             if (events.Count != 0)
             {
-                Lecturer lecturer = (Lecturer)personBox.SelectedItem;
+                Student student = (Student)personBox.SelectedItem;
                 for (int i = 0; i < events.Count; i++)
                 {
-                    if (events[i].FullName == lecturer.FullName)
-                        this.eventsDataGridView.Rows.Add(events[i].Subject, events[i].FullName, events[i].Date, events[i].Groups);
+                    foreach (string groupE in events[i].Groups)
+                        if (groupE == student.Group)
+                        this.eventsDataGridView.Rows.Add(events[i].Subject, events[i].FullName, events[i].Date,events[i].Room);
                 }
             }
-        }
-
-        private void deleteRowButton_Click(object sender, EventArgs e)
-        {
-            if (this.eventsDataGridView.SelectedRows.Count > 0 &&
-                this.eventsDataGridView.SelectedRows[0].Index !=
-                this.eventsDataGridView.Rows.Count - 1)
-            {
-                Lecturer lecturer = (Lecturer)personBox.SelectedItem;
-
-                string date = this.eventsDataGridView.CurrentRow.Cells[2].Value.ToString();
-                string subject = this.eventsDataGridView.CurrentRow.Cells[1].Value.ToString();
-                string groups = this.eventsDataGridView.CurrentRow.Cells[3].Value.ToString();
-
-                lecturer.RemoveExam(date, subject, groups);
-                this.eventsDataGridView.Rows.RemoveAt(
-                    this.eventsDataGridView.SelectedRows[0].Index);
-            }
-        }
-
-        private void addEventButton_Click(object sender, EventArgs e)
-        {
-            EventCreationForm eventCreation = new EventCreationForm((Lecturer)personBox.SelectedItem);
-            eventCreation.ShowDialog();
-
-
         }
 
         private void SetupLayout()
@@ -83,30 +55,12 @@ namespace Cursovaya
             showExams.Location = new Point(10, 10);
             showExams.Click += new EventHandler(showExams_Click);
 
-            deleteRowButton.Text = "Delete Row";
-            deleteRowButton.Location = new Point(100, 10);
-            deleteRowButton.Click += new EventHandler(deleteRowButton_Click);
-
-            addEventButton.Text = "Add Event";
-            addEventButton.Location = new Point(190, 10);
-            addEventButton.Click += new EventHandler(addEventButton_Click);
-
-
-            List<string> groups1 = new List<string> { "ABT-111", "ABT-222", "ABT-333", "ABT-444", "ABT-555", "ABT-666", "ABT-777" };
-            List<string> groups2 = new List<string> { "ABT-110", "ABT-220", "ABT-330", "ABT-440", "ABT-550", "ABT-660", "ABT-770" };
-            List<string> subjects1 = new List<string> { "Линейная алгебра", "Математический анализ", "Высшая математика" };
-            List<string> subjects2 = new List<string> { "Что-то там", "Ерунда", "Компьютерная графика" };
-
-            Lecturer Eugene = new Lecturer("Eugene", groups1, subjects1);
-            Lecturer Mark = new Lecturer("Mark", groups2, subjects2);
             personBox.Location = new Point(510, 0);
-            List<Lecturer> lecturers = new List<Lecturer> { Eugene, Mark };
+            List<Student> students = new List<Student> { new Student("Владимир Ут", "ABT-111"), new Student("Уауа", "АВТ-333")};
             personBox.DisplayMember = "FullName";
-            personBox.DataSource = lecturers;
+            personBox.DataSource = students;
 
             buttonPanel.Controls.Add(showExams);
-            buttonPanel.Controls.Add(deleteRowButton);
-            buttonPanel.Controls.Add(addEventButton);
             buttonPanel.Height = 50;
             buttonPanel.Dock = DockStyle.Bottom;
 
@@ -139,8 +93,7 @@ namespace Cursovaya
             eventsDataGridView.Columns[0].Name = "Предмет";
             eventsDataGridView.Columns[1].Name = "Преподаватель";
             eventsDataGridView.Columns[2].Name = "Дата";
-            eventsDataGridView.Columns[3].Name = "Группы";
-            eventsDataGridView.Columns[4].Name = "Кабинет";
+            eventsDataGridView.Columns[3].Name = "Кабинет";
 
 
             eventsDataGridView.SelectionMode =
@@ -156,8 +109,5 @@ namespace Cursovaya
             eventsDataGridView.Columns[1].DisplayIndex = 1;
             eventsDataGridView.Columns[2].DisplayIndex = 2;
         }
-
-
     }
 }
-

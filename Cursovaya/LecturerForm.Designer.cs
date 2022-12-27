@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Cursovaya
 {
-    partial class Form1
+    partial class LecturerForm
     {
         
         /// <summary>

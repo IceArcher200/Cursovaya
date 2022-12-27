@@ -20,7 +20,7 @@ namespace Cursovaya
         private Button addEventButton = new Button();
         private DateTimePicker dateTimePicker = new DateTimePicker();
         private CheckedListBox groupBox = new CheckedListBox();
-        private ComboBox roomBox = new ComboBox();
+        private ListBox roomBox = new ListBox();
         private Lecturer lecturer;
 
         public EventCreationForm(object l)
@@ -60,7 +60,10 @@ namespace Cursovaya
             dateTimeLabel.TextAlign = ContentAlignment.MiddleCenter;
             dateTimeLabel.Text = "Дата и время экзамена:";
 
+            List<string> rooms = new List<string> { "1001", "1002", "1003" };
             roomBox.Location = new Point(100, 500);
+            foreach (string room in rooms)
+                roomBox.Items.Add(room);
 
             addEventButton.Text = "Add Event";
             addEventButton.Location = new Point(190, 400);
@@ -93,7 +96,7 @@ namespace Cursovaya
                     groups.Add(item);
                 }
                 try
-                { lecturer.SetExam(dateTimePicker.Text, subjectBox.Text, groups); }
+                { lecturer.SetExam(dateTimePicker.Text, subjectBox.Text, groups,roomBox.Text); }
                 catch (Exception ee)
                 {
                     MessageBox.Show(ee.Message);

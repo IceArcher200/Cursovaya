@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace Cursovaya
@@ -35,15 +36,18 @@ namespace Cursovaya
             _subjects = subjects;
         }
 
-        public void SetExam(string date, string subject, List<string> groups)
+        public void SetExam(string date, string subject, List<string> groups, string room)
         {
             string answer = CheckNearestExam(date, groups);
-            if ( answer == "")
-                dataStore.AddEvent(new Event(date, groups, subject, _FIO));
+            if (answer == "")
+            {
+                dataStore.AddEvent(new Event(date, groups, subject, _FIO, room));
+                
+            }
             else throw new Exception($"У группы {answer} на ближайшее время уже назначен экзамен");
         }
 
-        public void RemoveExam(string date, string subject, string groups)
+        public void RemoveExam(string date, string subject, List<string> groups)
         {
             List<Event> events = dataStore.Get();
             foreach (Event ev in events)
@@ -51,6 +55,8 @@ namespace Cursovaya
                 if (ev.Date == date && ev.FullName == _FIO && ev.Groups == groups)
                 {
                     events.Remove(ev);
+                    string json = JsonConvert.SerializeObject(dataStore.Get());
+                    System.IO.File.WriteAllText(@"path.txt", json);
                     break;
                 }
             }
@@ -65,7 +71,7 @@ namespace Cursovaya
             {
                 foreach (string group in groups)
                 {
-                    foreach (string groupE in e.Groups.Split(','))
+                    foreach (string groupE in e.Groups)
                     {
                         if (group == groupE)
                         {
