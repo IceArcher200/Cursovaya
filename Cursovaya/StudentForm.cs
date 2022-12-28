@@ -40,8 +40,8 @@ namespace Cursovaya
                 Student student = (Student)personBox.SelectedItem;
                 for (int i = 0; i < events.Count; i++)
                 {
-                    foreach (string groupE in events[i].Groups)
-                        if (groupE == student.Group)
+                    foreach (Group groupE in events[i].Groups)
+                        if (groupE.Name == student.Group)
                         this.eventsDataGridView.Rows.Add(events[i].GetName(),events[i].Subject, events[i].FullName, events[i].Date,events[i].Room);
                 }
             }

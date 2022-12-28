@@ -9,9 +9,10 @@ namespace Cursovaya
     [Serializable]
     public class Event
     {
-        private string _subject, _FIO, _room;
+        private string _subject, _FIO;
+        private Room _room;
         private DateTime _date;
-        private List<string> _groups;
+        private List<Group> _groups;
 
         public string Subject
         {
@@ -30,18 +31,18 @@ namespace Cursovaya
             set { _date = value; }
         }
         
-        public List<string> Groups
+        public List<Group> Groups
         {
             get { return _groups; }
             set { _groups = value; }
         }
 
-        public string Room
+        public Room Room
         {
             get { return _room; }
             set { _room = value; }
         }
-        public Event(DateTime date, List<string> groups, string subject, string FIO, string room)
+        public Event(DateTime date, List<Group> groups, string subject, string FIO, Room room)
         {
             _date = date;
             _groups = groups;

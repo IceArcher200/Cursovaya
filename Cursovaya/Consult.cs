@@ -15,7 +15,7 @@ namespace Cursovaya
             set { duration = value; }
         }
 
-        public Consult(DateTime date, List<string> groups, string subject, string FIO, string room) : base(date, groups, subject, FIO, room) { }
+        public Consult(DateTime date, List<Group> groups, string subject, string FIO, Room room) : base(date, groups, subject, FIO, room) { }
 
         public override DateTime GetEndTime()
         {

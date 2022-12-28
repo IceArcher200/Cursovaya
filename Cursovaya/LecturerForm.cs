@@ -48,9 +48,9 @@ namespace Cursovaya
                     if (events[i].FullName == lecturer.FullName)
                     {
                         groupTemp = "";
-                        foreach (string group in events[i].Groups)
-                            groupTemp += group + " ";
-                        this.eventsDataGridView.Rows.Add(events[i].GetName(),events[i].Subject, events[i].FullName, events[i].Date + " - " + events[i].GetEndTime(), groupTemp, events[i].Room);
+                        foreach (Group group in events[i].Groups)
+                            groupTemp += group.Name + " ";
+                        this.eventsDataGridView.Rows.Add(events[i].GetName(),events[i].Subject, events[i].FullName, events[i].Date + " - " + events[i].GetEndTime(), groupTemp, events[i].Room.Number);
                     }
                 }
             }
@@ -75,7 +75,7 @@ namespace Cursovaya
                     groupList.Add(group);
                 }
                 groupList.Remove(groupList.Last());
-                lecturer.RemoveExam(d1, subject, groupList);
+                lecturer.RemoveEvent(d1, subject, groupList);
                 this.eventsDataGridView.Rows.RemoveAt(
                     this.eventsDataGridView.SelectedRows[0].Index);
             }
@@ -104,16 +104,18 @@ namespace Cursovaya
             addEventButton.Text = "Добавить событие";
             addEventButton.Location = new Point(190, 10);
             addEventButton.Click += new EventHandler(addEventButton_Click);
+            List<Group> groups = new List<Group> { new Group("ABT-111",30), new Group("ABT-122", 30),
+                new Group("ABT-133", 30),new Group("ABT-144",30),new Group("ABT-155",30),new Group("ABT-166",30) };
 
-
-            List<string> groups1 = new List<string> { "ABT-111", "ABT-122", "ABT-133", "ABT-144", "ABT-155", "ABT-166", "ABT-177" };
-            List<string> groups2 = new List<string> { "ABT-111", "ABT-122", "ABT-133", "ABT-144", "ABT-155", "ABT-166", "ABT-770" };
             List<string> subjects1 = new List<string> { "Линейная алгебра", "Математический анализ", "Высшая математика" };
             List<string> subjects2 = new List<string> { "ОПД", "ОИБ", "Компьютерная графика" };
+            List<string> subjects3 = new List<string> { "Правоведение", "Философия", "Физика" };
 
-            Lecturer Eugene = new Lecturer("Eugene", groups1, subjects1);
-            Lecturer Mark = new Lecturer("Mark", groups2, subjects2);
-            List<Lecturer> lecturers = new List<Lecturer> { Eugene, Mark };
+            Lecturer Eugene = new Lecturer("Иванов Иван", groups, subjects1);
+            Lecturer Mark = new Lecturer("Марков Марк", groups, subjects2);
+            groups.Remove(groups.Last());
+            Lecturer Andrey = new Lecturer("Андронов Андрей", groups, subjects3);
+            List<Lecturer> lecturers = new List<Lecturer> { Eugene, Mark, Andrey };
 
             personBox.Location = new Point(550, 300);
             personBox.DisplayMember = "FullName";
@@ -159,7 +161,7 @@ namespace Cursovaya
             eventsDataGridView.Columns[0].Name = "";
             eventsDataGridView.Columns[1].Name = "Предмет";
             eventsDataGridView.Columns[2].Name = "Преподаватель";
-            eventsDataGridView.Columns[3].Name = "Дата";
+            eventsDataGridView.Columns[3].Name = "Дата. Время начала - время окончания";
             eventsDataGridView.Columns[4].Name = "Группы";
             eventsDataGridView.Columns[5].Name = "Кабинет";
 

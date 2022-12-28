@@ -26,10 +26,6 @@ namespace Cursovaya
                 }
             return instance;
         }
-        private void ConcurrentDataBase()
-        {
-            this._events = new List<Event>();
-        }
 
         public void AddEvent(Event event1)
         {
@@ -48,13 +44,10 @@ namespace Cursovaya
             if (!System.IO.File.Exists(@"path.txt"))
                 System.IO.File.Create(@"path.txt");
                 
-            
-
                 if (System.IO.File.ReadAllText(@"path.txt") != "")
                 _events = JsonConvert.DeserializeObject<List<Event>>(System.IO.File.ReadAllText(@"path.txt"), settings);
                 return _events;
-            
-            
+
         }
 
         public void DeleteEvent(Event event1)

@@ -52,7 +52,8 @@ namespace Cursovaya
 
             groupBox.Location = new Point(130, 30);
             groupBox.CheckOnClick = true;
-            foreach (string group in lecturer.Groups)
+            groupBox.DisplayMember = "Name";
+            foreach (Group group in lecturer.Groups)
                 groupBox.Items.Add(group);
 
             roomLabel.Location = new Point(380, 0);
@@ -78,10 +79,11 @@ namespace Cursovaya
             roomLabel.TextAlign = ContentAlignment.MiddleCenter;
             roomLabel.Text = "Аудитория:";
 
-            List<string> rooms = new List<string> { "1001", "1002", "1003","1004","1005" };
+            List<Room> rooms = new List<Room> { new Room("1001", 30), new Room("1002", 60), 
+                new Room("1003", 90),new Room("1004", 120), new Room("1005", 150) };
             roomBox.Location = new Point(255, 30);
-            foreach (string room in rooms)
-                roomBox.Items.Add(room);
+            roomBox.DisplayMember = "Number";
+            roomBox.DataSource = rooms;
 
             addEventButton.Text = "Добавить событие";
             addEventButton.Location = new Point(250, 170);
@@ -116,8 +118,8 @@ namespace Cursovaya
                 MessageBox.Show("Не выбран тип события");
             else
             {
-                List<string> groups = new List<string>();
-                foreach (string item in groupBox.CheckedItems)
+                List<Group> groups = new List<Group>();
+                foreach (Group item in groupBox.CheckedItems)
                 {
                     groups.Add(item);
                 }
@@ -125,8 +127,8 @@ namespace Cursovaya
 
                 {
                     if (typeBox.SelectedItem.Equals("Экзамен"))
-                        lecturer.SetExam(datetime, subjectBox.Text, groups, roomBox.Text);
-                    else lecturer.SetConsult(datetime, subjectBox.Text, groups, roomBox.Text);
+                        lecturer.SetExam(datetime, subjectBox.Text, groups, (Room)roomBox.SelectedItem);
+                    else lecturer.SetConsult(datetime, subjectBox.Text, groups, (Room)roomBox.SelectedItem);
                 }
                 catch (Exception ee)
                 {

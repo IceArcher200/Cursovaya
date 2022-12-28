@@ -19,7 +19,7 @@ namespace Cursovaya
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ChooseForm());
+            Application.Run(new LecturerForm());
 
             
             

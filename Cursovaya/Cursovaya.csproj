@@ -75,6 +75,7 @@
     <Compile Include="Lecturer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentForm.cs">
       <SubType>Form</SubType>
