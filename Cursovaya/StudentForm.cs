@@ -42,7 +42,7 @@ namespace Cursovaya
                 {
                     foreach (string groupE in events[i].Groups)
                         if (groupE == student.Group)
-                        this.eventsDataGridView.Rows.Add(events[i].Subject, events[i].FullName, events[i].Date,events[i].Room);
+                        this.eventsDataGridView.Rows.Add(events[i].GetName(),events[i].Subject, events[i].FullName, events[i].Date,events[i].Room);
                 }
             }
         }
@@ -84,16 +84,19 @@ namespace Cursovaya
             eventsDataGridView.Size = new Size(500, 250);
             eventsDataGridView.AutoSizeRowsMode =
                 DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders;
+            eventsDataGridView.AutoSizeColumnsMode =
+        DataGridViewAutoSizeColumnsMode.AllCells;
             eventsDataGridView.ColumnHeadersBorderStyle =
                 DataGridViewHeaderBorderStyle.Single;
             eventsDataGridView.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             eventsDataGridView.GridColor = Color.Black;
             eventsDataGridView.RowHeadersVisible = false;
 
-            eventsDataGridView.Columns[0].Name = "Предмет";
-            eventsDataGridView.Columns[1].Name = "Преподаватель";
-            eventsDataGridView.Columns[2].Name = "Дата";
-            eventsDataGridView.Columns[3].Name = "Кабинет";
+            eventsDataGridView.Columns[0].Name = "";
+            eventsDataGridView.Columns[1].Name = "Предмет";
+            eventsDataGridView.Columns[2].Name = "Преподаватель";
+            eventsDataGridView.Columns[3].Name = "Дата";
+            eventsDataGridView.Columns[4].Name = "Кабинет";
 
 
             eventsDataGridView.SelectionMode =

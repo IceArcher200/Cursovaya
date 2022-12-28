@@ -9,7 +9,8 @@ namespace Cursovaya
     [Serializable]
     public class Event
     {
-        private string _subject, _FIO, _date, _room;
+        private string _subject, _FIO, _room;
+        private DateTime _date;
         private List<string> _groups;
 
         public string Subject
@@ -23,7 +24,7 @@ namespace Cursovaya
             get { return _FIO; }
             set { _FIO = value; }
         }
-        public string Date
+        public DateTime Date
         {
             get { return _date; }
             set { _date = value; }
@@ -40,7 +41,7 @@ namespace Cursovaya
             get { return _room; }
             set { _room = value; }
         }
-        public Event(string date, List<string> groups, string subject, string FIO, string room)
+        public Event(DateTime date, List<string> groups, string subject, string FIO, string room)
         {
             _date = date;
             _groups = groups;
@@ -48,5 +49,10 @@ namespace Cursovaya
             _FIO = FIO;
             _room = room;
         }
+
+        public virtual DateTime GetEndTime() { return this.Date; }
+        public virtual string GetName() { return "Событие"; }
+        
+        
     }
 }

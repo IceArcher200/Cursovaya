@@ -25,18 +25,21 @@ namespace Cursovaya
 
         private void SetupLayout()
         {
-            this.Size = new Size(400, 400);
-            infoLabel.Location = new Point(100, 100);
+            this.Size = new Size(200, 200);
+            infoLabel.Location = new Point(5, 5);
             infoLabel.TextAlign = ContentAlignment.MiddleCenter;
+            infoLabel.AutoSize = true;
             infoLabel.Text = "Выберите свою категорию";
 
             lectureButton.Text = "Преподаватель";
-            lectureButton.Location = new Point(200, 310);
+            lectureButton.Location = new Point(5, 40);
             lectureButton.Click += new EventHandler(lectureButton_Click);
+            lectureButton.AutoSize = true;
 
             studentButton.Text = "Студент";
-            studentButton.Location = new Point(200, 200);
+            studentButton.Location = new Point(5, 70);
             studentButton.Click += new EventHandler(studentButton_Click);
+            studentButton.AutoSize = true;
 
             this.Controls.Add(this.infoLabel);
             this.Controls.Add(this.lectureButton);

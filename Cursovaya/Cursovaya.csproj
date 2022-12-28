@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Consult.cs" />
     <Compile Include="DataBase.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventCreationForm.cs">
@@ -57,6 +58,8 @@
     <Compile Include="EventCreationForm.Designer.cs">
       <DependentUpon>EventCreationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Exam.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="LecturerForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -36,36 +36,47 @@ namespace Cursovaya
             _subjects = subjects;
         }
 
-        public void SetExam(string date, string subject, List<string> groups, string room)
+        public void SetExam(DateTime date, string subject, List<string> groups, string room)
         {
+           
             string answer = CheckNearestExam(date, groups);
             if (answer == "")
             {
-                dataStore.AddEvent(new Event(date, groups, subject, _FIO, room));
+                dataStore.AddEvent(new Exam(date, groups, subject, _FIO, room));
                 
             }
             else throw new Exception($"У группы {answer} на ближайшее время уже назначен экзамен");
         }
 
-        public void RemoveExam(string date, string subject, List<string> groups)
+        public void SetConsult(DateTime date, string subject, List<string> groups, string room)
+        {
+
+            string answer = CheckNearestExam(date, groups);
+            if (answer == "")
+            {
+                dataStore.AddEvent(new Consult(date, groups, subject, _FIO, room));
+
+            }
+            else throw new Exception($"У группы {answer} на ближайшее время уже назначен экзамен");
+        }
+
+        public void RemoveExam(DateTime date, string subject, List<string> groups)
         {
             List<Event> events = dataStore.Get();
             foreach (Event ev in events)
             {
-                if (ev.Date == date && ev.FullName == _FIO && ev.Groups == groups)
+                if (ev.Date.ToString() == date.ToString() && ev.FullName == _FIO && ev.Groups.SequenceEqual(groups))
                 {
-                    events.Remove(ev);
-                    string json = JsonConvert.SerializeObject(dataStore.Get());
-                    System.IO.File.WriteAllText(@"path.txt", json);
+                    dataStore.DeleteEvent(ev);
+                    
                     break;
                 }
             }
         }
 
-        private string CheckNearestExam(string date, List<string> groups)
+        private string CheckNearestExam(DateTime date, List<string> groups)
         {
-            string[] date1 = date.Split(' ')[0].Split('.');
-            DateTime d1 = new DateTime(int.Parse(date1[2]), int.Parse(date1[1]), int.Parse(date1[0]));
+            
             List<Event> events = dataStore.Get();
             foreach (Event e in events)
             {
@@ -75,10 +86,12 @@ namespace Cursovaya
                     {
                         if (group == groupE)
                         {
-                            string[] date2 = e.Date.Split(' ')[0].Split('.');
-                            DateTime d2 = new DateTime(int.Parse(date2[2]), int.Parse(date2[1]), int.Parse(date2[0]));
-                            if (d1 < d2) (d1, d2) = (d2, d1);
-                            if (d2.AddDays(2) >= d1) return group;
+                            DateTime d2 = e.Date;
+                            
+                            if (date < d2) 
+                                (date, d2) = (d2, date);
+                            if (d2.AddDays(2) >= date) 
+                                return group;
                             
                         }
                     }
